@@ -1,0 +1,28 @@
+rules:
+  - id: check-create-endpoint
+    patterns:
+      - pattern: |
+          curl -X POST -H 'content-type:application/json' -d '{"name":"$name","price":$price}' localhost:8080/api/items
+    message: "Potential security issue: Direct use of cURL for create operation without proper input validation or authentication checks."
+    severity: WARNING
+
+  - id: check-authentication-create
+    patterns:
+      - pattern: |
+          curl -X POST -H 'content-type:application/json' -d '{"name":"$name","price":$price}' -H 'Authorization: Bearer $token' localhost:8080/api/items
+    message: "Ensure proper authentication when creating data using cURL."
+    severity: WARNING
+
+  - id: check-input-validation-create
+    patterns:
+      - pattern: |
+          curl -X POST -H 'content-type:application/json' -d '{"name":"$name","price":$price}' localhost:8080/api/items
+    message: "Consider implementing input validation for create operation to prevent injection attacks."
+    severity: WARNING
+
+  - id: check-secure-connection-create
+    patterns:
+      - pattern: |
+          curl -X POST -H 'content-type:application/json' -d '{"name":"$name","price":$price}' https://localhost:8080/api/items
+    message: "Consider using a secure connection (HTTPS) when creating data."
+    severity: WARNING
